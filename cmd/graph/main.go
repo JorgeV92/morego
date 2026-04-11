@@ -83,7 +83,13 @@ func run(problem string) error {
 		fmt.Println(graph.MinimumObstacles(grid1))
 		fmt.Println(graph.MinimumObstacles(grid2))
 		return nil
-
+	case string(graph.IncreasingPaths):
+		grid := [][]int{
+			{1, 1},
+			{3, 4},
+		}
+		fmt.Println(graph.CountPaths(grid))
+		return nil
 	default:
 		return fmt.Errorf(
 			"unknown graph problem %q (available: %s)",

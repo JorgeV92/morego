@@ -6,8 +6,12 @@ A small Go project for practicing algorithms
 ## Run a problem
 
 ```bash
-go run ./cmd/algorithms -problem obstacle-removal
-go run ./cmd/algorithms -problem topological-sort
+go run ./cmd/arrays -problem three-sum
+go run ./cmd/arrays -problem array-change
+
+go run ./cmd/graph -problem topological-sort
+go run ./cmd/graph -problem obstacle-removal
+go run ./cmd/graph -problem surrounding-xo
 ```
 
 Or with `make`:
