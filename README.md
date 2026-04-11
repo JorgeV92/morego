@@ -1,4 +1,4 @@
-# MoreGo
+# morego
 
 A small Go project for practicing algorithms 
 
