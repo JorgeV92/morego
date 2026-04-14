@@ -1,6 +1,7 @@
 package data
 
 import (
+	"container/heap"
 	"fmt"
 	"sort"
 )
@@ -143,6 +144,91 @@ func Prim(adj [][]int) {
 		for to := 0; to < n; to++ {
 			if adj[v][to] < minE[to].w {
 				minE[to] = PrimEdge{w: adj[v][to], to: v}
+			}
+		}
+	}
+	fmt.Println(totalWeight)
+}
+
+type BestEdge struct {
+	w  int
+	to int // parent in mst
+}
+
+type Item struct {
+	w  int
+	to int
+}
+
+type PriorityQueue []Item
+
+func (pq PriorityQueue) Len() int { return len(pq) }
+
+func (pq PriorityQueue) Less(i, j int) bool {
+	if pq[i].w != pq[j].w {
+		return pq[i].w < pq[j].w
+	}
+	return pq[i].to < pq[j].to
+}
+
+func (pq PriorityQueue) Swap(i, j int) {
+	pq[i], pq[j] = pq[j], pq[i]
+}
+
+func (pq *PriorityQueue) Push(x any) {
+	*pq = append(*pq, x.(Item))
+}
+
+func (pq *PriorityQueue) Pop() any {
+	old := *pq
+	n := len(old)
+	x := old[n-1]
+	*pq = old[:n-1]
+	return x
+}
+
+func PrimPQ(adj [][]PrimEdge) {
+	n := len(adj)
+	if n == 0 {
+		fmt.Println(0)
+		return
+	}
+
+	totalWeight := 0
+	selected := make([]bool, n)
+	minE := make([]BestEdge, n)
+
+	for i := 0; i < n; i++ {
+		minE[i] = BestEdge{w: INF, to: -1}
+	}
+	minE[0].w = 0
+
+	pq := &PriorityQueue{}
+	heap.Init(pq)
+	heap.Push(pq, Item{w: 0, to: 0})
+
+	chosen := 0
+	for chosen < n {
+		if pq.Len() == 0 {
+			fmt.Println("NO MST")
+		}
+		cur := heap.Pop(pq).(Item)
+		v := cur.to
+		if selected[v] || cur.w != minE[v].w {
+			continue
+		}
+		selected[v] = true
+		chosen++
+		totalWeight += cur.w
+
+		if minE[v].to != -1 {
+			fmt.Println(v, minE[v].to)
+		}
+
+		for _, e := range adj[v] {
+			if !selected[e.to] && e.w < minE[e.to].w {
+				minE[e.to] = BestEdge{w: e.w, to: v}
+				heap.Push(pq, Item{w: e.w, to: e.to})
 			}
 		}
 	}

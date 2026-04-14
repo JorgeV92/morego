@@ -51,6 +51,38 @@ func TestPrimReportsNoMSTForDisconnectedGraph(t *testing.T) {
 	}
 }
 
+func TestPrimPQPrintsMSTForConnectedGraph(t *testing.T) {
+	adj := [][]PrimEdge{
+		{
+			{w: 10, to: 1},
+			{w: 6, to: 2},
+			{w: 5, to: 3},
+		},
+		{
+			{w: 10, to: 0},
+			{w: 15, to: 3},
+		},
+		{
+			{w: 6, to: 0},
+			{w: 4, to: 3},
+		},
+		{
+			{w: 5, to: 0},
+			{w: 15, to: 1},
+			{w: 4, to: 2},
+		},
+	}
+
+	got := captureStdout(t, func() {
+		PrimPQ(adj)
+	})
+
+	want := "3 0\n2 3\n1 0\n19\n"
+	if got != want {
+		t.Fatalf("unexpected PrimPQ output: got %q want %q", got, want)
+	}
+}
+
 func testKruskalImplementation(t *testing.T, kruskal func(int, []Edge) (int, []Edge)) {
 	t.Helper()
 
