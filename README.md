@@ -17,7 +17,21 @@ go run ./cmd/graph -problem surrounding-xo
 Or with `make`:
 
 ```bash
-make run PROBLEM=surrounding-xo
+make run-arrays ARRAY_PROBLEM=three-sum
+make run-graph GRAPH_PROBLEM=surrounding-xo
+```
+
+## Parse a Go AST
+
+```bash
+go run ./cmd/parsing -file algorithms/parsing/ast.go
+go run ./cmd/parsing -file algorithms/data/mst.go
+```
+
+Or with `make`:
+
+```bash
+make run-parsing PARSING_FILE=algorithms/data/mst.go
 ```
 
 ## Run tests
@@ -32,4 +46,3 @@ make test
 1. Add the pure function to `algorithms/graph/problems.go`.
 2. Add a test in `algorithms/graph/problems_test.go`.
 3. Register a sample case in `cmd/algorithms/main.go`.
-

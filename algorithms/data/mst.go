@@ -113,6 +113,9 @@ type PrimEdge struct {
 }
 
 func Prim(adj [][]int) {
+	// On Dense graphs
+	// graphs with close to max number of edges
+	// Time O(n^2)
 	n := len(adj)
 	totalWeight := 0
 	selected := make([]bool, n)
@@ -188,6 +191,9 @@ func (pq *PriorityQueue) Pop() any {
 }
 
 func PrimPQ(adj [][]PrimEdge) {
+	// On Sparse graphs
+	// Small number of edges
+	// Time O(M log N)
 	n := len(adj)
 	if n == 0 {
 		fmt.Println(0)
