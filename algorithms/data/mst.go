@@ -1,6 +1,9 @@
 package data
 
-import "sort"
+import (
+	"fmt"
+	"sort"
+)
 
 type Edge struct {
 	U, V int
@@ -99,4 +102,49 @@ func KruskalDSU(n int, edges []Edge) (int, []Edge) {
 		}
 	}
 	return cost, result
+}
+
+const INF = 1000000000
+
+type PrimEdge struct {
+	w  int
+	to int
+}
+
+func Prim(adj [][]int) {
+	n := len(adj)
+	totalWeight := 0
+	selected := make([]bool, n)
+	minE := make([]PrimEdge, n)
+
+	for i := 0; i < n; i++ {
+		minE[i] = PrimEdge{w: INF, to: -1}
+	}
+	minE[0].w = 0
+
+	for i := 0; i < n; i++ {
+		v := -1
+		for j := 0; j < n; j++ {
+			if !selected[j] && (v == -1 || minE[j].w < minE[v].w) {
+				v = j
+			}
+		}
+
+		if v == -1 || minE[v].w == INF {
+			fmt.Println("No MST")
+		}
+
+		selected[v] = true
+		totalWeight += minE[v].w
+		if minE[v].to != -1 {
+			fmt.Println(v, minE[v].to)
+		}
+
+		for to := 0; to < n; to++ {
+			if adj[v][to] < minE[to].w {
+				minE[to] = PrimEdge{w: adj[v][to], to: v}
+			}
+		}
+	}
+	fmt.Println(totalWeight)
 }
