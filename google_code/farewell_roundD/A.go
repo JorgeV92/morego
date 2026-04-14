@@ -18,7 +18,7 @@ func (fs *FastScanner) NextInt() int {
 	sign, val := 1, 0
 	c, err := fs.r.ReadByte()
 	for (c < '0' || c > '9') && c != '-' {
-		c, err := fs.r.ReadByte()
+		c, err = fs.r.ReadByte()
 		if err != nil {
 			return 0
 		}
@@ -58,7 +58,7 @@ func buildSide(n int, fs *FastScanner) SideData {
 		parent[i] = -2
 	}
 	parent[0] = -1
-	order := make([]int, n)
+	order := make([]int, 0, n)
 	stack := []int{0}
 
 	for len(stack) > 0 {
@@ -95,7 +95,7 @@ func buildSide(n int, fs *FastScanner) SideData {
 	for _, v := range order {
 		for _, nxt := range adj[v] {
 			if parent[nxt] == v {
-				loc[nxt] = loc[v] - int64(sz[nxt]) - int64(n-sz[nxt])
+				loc[nxt] = loc[v] - int64(sz[nxt]) + int64(n-sz[nxt])
 			}
 		}
 	}
@@ -120,6 +120,8 @@ func main() {
 	defer out.Flush()
 
 	T := in.NextInt()
+	// time O(W + E + C)
+	// space O(W * E)
 	for tc := 1; tc <= T; tc++ {
 		W := in.NextInt()
 		E := in.NextInt()
@@ -143,7 +145,7 @@ func main() {
 			total += east.loc[b] * int64(W)
 
 			avg := float64(total) / float64(denom)
-			fmt.Fprintln(out, "%.12f", avg)
+			fmt.Fprintf(out, " %.12f", avg)
 		}
 		fmt.Fprintln(out)
 	}
