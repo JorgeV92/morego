@@ -12,6 +12,8 @@ go run ./cmd/arrays -problem array-change
 go run ./cmd/graph -problem topological-sort
 go run ./cmd/graph -problem obstacle-removal
 go run ./cmd/graph -problem surrounding-xo
+
+go run ./cmd/data -problem treap
 ```
 
 Or with `make`:
@@ -19,6 +21,7 @@ Or with `make`:
 ```bash
 make run-arrays ARRAY_PROBLEM=three-sum
 make run-graph GRAPH_PROBLEM=surrounding-xo
+make run-data DATA_PROBLEM=treap
 ```
 
 ## Parse a Go AST
@@ -46,3 +49,21 @@ make test
 1. Add the pure function to `algorithms/graph/problems.go`.
 2. Add a test in `algorithms/graph/problems_test.go`.
 3. Register a sample case in `cmd/algorithms/main.go`.
+
+## Treap example
+
+```bash
+go run ./cmd/data -problem treap
+```
+
+Sample output:
+
+```text
+after insert: [1 2 3 4 5]
+size: 5
+sum: 15
+after erase 3: [1 2 4 5]
+left split: [1 2]
+right split: [4 5]
+merged again: [1 2 4 5]
+```
